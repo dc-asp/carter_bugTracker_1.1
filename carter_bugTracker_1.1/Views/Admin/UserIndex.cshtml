@@ -1,6 +1,6 @@
 ﻿@using carter_bugTracker_1._1.ViewModels
 
-@model.IEnumerable<UserProfileViewModel>
+@model IEnumerable<UserProfileViewModel>
 
 @*@{
     var roleHelper = new UserRoleHelper();
@@ -35,6 +35,8 @@
         </th>
         <th></th>
     </tr>
+
+    
 
     @foreach (var user in Model)
     {

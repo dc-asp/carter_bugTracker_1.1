@@ -183,6 +183,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ProjectsHelper.cs" />
+    <Compile Include="Helpers\UserProjectsHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -198,7 +200,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Models\TicketAttachment.cs" />
     <Compile Include="Models\TicketComment.cs" />
-    <Compile Include="UserRolesHelper\UserRolesHelper.cs" />
+    <Compile Include="Helpers\UserRolesHelper.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

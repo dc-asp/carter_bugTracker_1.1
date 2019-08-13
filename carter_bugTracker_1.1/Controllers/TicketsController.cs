@@ -57,6 +57,7 @@ namespace carter_bugTracker_1._1.Controllers
         {
             if (ModelState.IsValid)
             {
+                ticket.TicketStatusId = db.TicketStatuses.FirstOrDefault(t => t.Name == "New/Unassigned").Id;
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
                 return RedirectToAction("Index");

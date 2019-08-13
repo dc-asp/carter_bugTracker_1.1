@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace carter_bugTracker_1._1
+namespace carter_bugTracker_1._1.Models
 {
     public class Project
     {
@@ -13,9 +13,11 @@ namespace carter_bugTracker_1._1
         public string Description { get; set; }
         public DateTime Created { get; set; }
         public virtual ICollection<Ticket> Tickets { get; set; }
+        public virtual ICollection<ApplicationUser> User { get; set; }
         public Project()
         {
             Tickets = new HashSet<Ticket>();
+            User = new HashSet<ApplicationUser>();
         }
 
     }

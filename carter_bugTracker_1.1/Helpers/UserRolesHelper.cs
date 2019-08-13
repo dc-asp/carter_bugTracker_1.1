@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace carter_bugTracker_1._1.UserRolesHelper
+namespace carter_bugTracker_1._1.Helpers
 {
     public class UserRolesHelper
     {
@@ -18,7 +18,7 @@ namespace carter_bugTracker_1._1.UserRolesHelper
         {
             return userManager.IsInRole(userId, roleName);
         }
-        public ICollection<string> ListUserRoles(string userId)
+        public ICollection<string>ListUserRoles(string userId)
         {
             return userManager.GetRoles(userId);
         }
@@ -27,7 +27,12 @@ namespace carter_bugTracker_1._1.UserRolesHelper
             var result = userManager.AddToRole(userId, roleName);
             return result.Succeeded;
         }
-        public ICollection<ApplicationUser> UsersInRole(string roleName)
+        public bool RemoveUserFromRole(string userId, string roleName)
+        {
+            var result = userManager.RemoveFromRole(userId, roleName);
+            return result.Succeeded;
+        }
+        public ICollection<ApplicationUser>UsersInRole(string roleName)
         {
             var resultList = new List<ApplicationUser>();
             var List = userManager.Users.ToList();
