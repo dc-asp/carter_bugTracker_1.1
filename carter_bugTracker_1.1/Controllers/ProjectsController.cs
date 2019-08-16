@@ -38,10 +38,15 @@ namespace carter_bugTracker_1._1.Controllers
             }
 
             var allProjectManagers = roleHelper.UsersInRole("Project Manager");
-            ViewBag.ProjectManagers = new MultiSelectList(allProjectManagers, "Id", "DisplayName");
+            var currentProjectManagers = projectHelper.UsersInRoleOnProject(project.Id, "ProjectManager");
+            ViewBag.ProjectManagers = new MultiSelectList(allProjectManagers, "Id", "DisplayName", currentProjectManagers);
+
             var allDevelopers = roleHelper.UsersInRole("Developer");
+            var currentDevelopers = projectHelper.UsersInRoleOnProject(project.Id, "Developer");
             ViewBag.Developers = new MultiSelectList(allProjectManagers, "Id", "DisplayName");
+
             var allSubmitters = roleHelper.UsersInRole("Submitter");
+            var currentSubmitters = projectHelper.UsersInRoleOnProject(project.Id, "ProjectManager");
             ViewBag.Submitters = new MultiSelectList(allProjectManagers, "Id", "DisplayName");
 
 

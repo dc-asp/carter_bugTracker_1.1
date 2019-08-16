@@ -102,14 +102,16 @@ namespace carter_bugTracker_1._1.Controllers
         }
         public ActionResult ManageUserProjects(string userId)
         {
-            var myProjects = projectHelper.ListUserProjects(userId).Select(p => p.Id);
-            ViewBag.Projects = new MultiSelectList(db.Projects.ToList(), "Id", "Name", myProjects);
+            var currentProjects = projectHelper.ListUserProjects(userId).Select(p => p.Id);
+            ViewBag.Projects = new MultiSelectList(db.Projects.ToList(), "Id", "Name", currentProjects);
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ManageUserProjects(List<int> projects, string userId)
         {
+            //var user = db.Users.Find(model.Id);
+            ProjectsHelper helper = new ProjectsHelper();
             foreach (var project in projectHelper.ListUserProjects(userId).ToList())
             {
                 projectHelper.RemoveUsersFromProject(userId, project.Id);

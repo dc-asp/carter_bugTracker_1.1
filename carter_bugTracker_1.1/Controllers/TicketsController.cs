@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using carter_bugTracker_1._1.Helpers;
 using carter_bugTracker_1._1.Models;
 using Microsoft.AspNet.Identity;
 
@@ -14,12 +15,51 @@ namespace carter_bugTracker_1._1.Controllers
     public class TicketsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UserRolesHelper roleHelper = new UserRolesHelper();
 
         // GET: Tickets
         public ActionResult Index()
         {
             var tickets = db.Tickets.Include(t => t.AssignedToUser).Include(t => t.OwnerUser).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
             return View(tickets.ToList());
+        }
+
+        [Authorize(Roles = "ProjectManager, Developer, Submitter")]
+        public ActionResult MyIndex()
+        {
+            var userId = User.Identity.GetUserId();
+            var myRole = roleHelper.ListUserRoles(userId).FirstOrDefault();
+            var myTickets = new List<Ticket>();
+            //MyIndex wants to fill some view with MyTickets only.
+            //Step 1: ask the question, "What role do I occupy.
+            switch(myRole)
+            {
+                case "Developer":
+                    myTickets = db.Tickets.Where(t => t.AssignedToUserId == userId).ToList();
+                    break;
+                case "Submitter":
+                    myTickets = db.Tickets.Where(t => t.OwnerUserId == userId).ToList();
+                    break;
+                case "ProjectManager":
+                    myTickets = db.Users.Find(userId).Projects.SelectMany(t => t.Tickets).ToList();
+                    break;
+                
+            }
+
+            if (User.IsInRole("Submitter"))
+            {
+                //submitter view config
+            }
+            if (User.IsInRole("Developer"))
+            {
+                //submitter view config
+            }
+            if (User.IsInRole("Project Manager"))
+            {
+                //submitter view config
+            }
+
+            return View("Index", myTickets);
         }
 
         // GET: Tickets/Details/5
