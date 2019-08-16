@@ -1,8 +1,56 @@
-﻿@{
+﻿@using carter_bugTracker_1._1.ViewModels
+@using carter_bugTracker_1._1.Helpers
+
+
+@{
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
+@*Dashboard*@
+
+
+<div class="col-md-6">
+    <section class="panel panel-warning">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+
+                    @if(TicketDecisionHelper.TicketisEditableByUser(Model))
+                    {
+                        using (Html.BeginForm("Create", "TicketAttachment", FormMethod.Post, new { enctype = "Multipart/form-data"}))
+                        {
+
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("TicketId", Model.Id)
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                </div>
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@foreach(var attachment in Model.TicketAttachments)
+{
+    <div class="row">
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <img src="@ImageHelpers.GetIconPath(@Attachmenmt.Attachment.Url)"/>
+                    @*<h2>Image Goes Here</h2>*@
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@*<div class="jumbotron">
     <h1>ASP.NET</h1>
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
     <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
@@ -28,4 +76,4 @@
         <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
         <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
-</div>
+</div>*@

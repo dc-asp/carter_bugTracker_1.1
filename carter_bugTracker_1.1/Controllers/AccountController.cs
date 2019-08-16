@@ -9,11 +9,15 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using carter_bugTracker_1._1.Models;
+using System.Web.Configuration;
+using System.IO;
+using carter_bugTracker_1._1.Helpers;
 
 namespace carter_bugTracker_1._1.Controllers
 {
     [Authorize]
     public class AccountController : Controller
+
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -153,11 +157,20 @@ namespace carter_bugTracker_1._1.Controllers
             {
                 var user = new ApplicationUser
                 {
-                    UserName = model.Email,
-                    Email = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
+                    UserName = model.Email,
+                    Email = model.Email,
+                    AvatarUrl = WebConfigurationManager.AppSettings["DefaultAvatar"]
                 };
+
+                if(ImageHelpers.(model.Avatar))
+                {
+                    var fileName = Path.GetFileName(model.Avatar.FileName);
+                    model.Avatar.SaveAs(Path.Combine(Server.MapPath("~/Avatars/"), fileName));
+                    user.AvatarURL = "~/Avatars/" + fileName;
+                }
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

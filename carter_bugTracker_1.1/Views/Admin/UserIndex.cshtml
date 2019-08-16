@@ -1,10 +1,11 @@
 ﻿@using carter_bugTracker_1._1.ViewModels
+@using carter_bugTracker_1._1.Helpers
 
 @model IEnumerable<UserProfileViewModel>
 
-@*@{
-    var roleHelper = new UserRoleHelper();
-}*@
+@{
+    var roleHelper = new UserRolesHelper();
+}
 
 
 <style>
@@ -52,6 +53,9 @@
     </td>
     <td>
         @Html.DisplayFor(modelItem => user.Email)
+    </td>
+    <td>
+        @Html.Display(roleHelper.ListUserRoles(user.Id).FirstOrDefault())
     </td>
     <td>
         @Html.ActionLink("Manage Role", "ManageUserRole", "Admin", new { userId = user.Id }, null) |

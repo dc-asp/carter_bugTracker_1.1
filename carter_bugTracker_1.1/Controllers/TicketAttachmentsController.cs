@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using carter_bugTracker_1._1;
+using carter_bugTracker_1._1.Helpers;
 using carter_bugTracker_1._1.Models;
+using Microsoft.AspNet.Identity;
 
 namespace carter_bugTracker_1._1.Controllers
 {
@@ -50,13 +53,24 @@ namespace carter_bugTracker_1._1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TicketId,UserId,Title,Description,AttachmentUrl,Created")] TicketAttachment ticketAttachment)
+        public ActionResult Create([Bind(Include = "TicketId,UserId,Title,Description,AttachmentUrl,Created")] TicketAttachment ticketAttachment, string attachmentTitle, string attachmentDescription, HttpPostedFileBaseModelBinder attachment)
         {
             if (ModelState.IsValid)
             {
-                db.TicketAttachments.Add(ticketAttachment);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                //db.TicketAttachments.Add(ticketAttachment);
+                //db.SaveChanges();
+                //return RedirectToAction("Index");
+                ticketAttachment.Title = attachmentTitle;
+                ticketAttachment.Description = attachmentDescription;
+                ticketAttachment.Created = DateTime.Now;
+                ticketAttachment.UserId = User.Identity.GetUserId();
+
+                if (ImageHelpers.IsValidAttachment(attachment))
+                {
+                    var fileName = Path.GetFileName(attachment.FileName);
+                    attachment.SaveAs(Path.Combine(Server.MapPath("~/Attachments/"), fileName));
+                    ticketAttachment.AttachmentUrl = "/Attachments/" + fileName;
+                }
             }
 
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "OwnerUserId", ticketAttachment.TicketId);

@@ -8,12 +8,15 @@ using System.Web;
 using System.Web.Mvc;
 using carter_bugTracker_1._1;
 using carter_bugTracker_1._1.Models;
+using carter_bugTracker_1._1.Helpers;
 
 namespace carter_bugTracker_1._1.Controllers
 {
     public class ProjectsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UserRolesHelper roleHelper = new UserRolesHelper();
+        private ProjectsHelper projectHelper = new ProjectsHelper();
 
         // GET: Projects
         public ActionResult Index()
@@ -33,6 +36,15 @@ namespace carter_bugTracker_1._1.Controllers
             {
                 return HttpNotFound();
             }
+
+            var allProjectManagers = roleHelper.UsersInRole("Project Manager");
+            ViewBag.ProjectManagers = new MultiSelectList(allProjectManagers, "Id", "DisplayName");
+            var allDevelopers = roleHelper.UsersInRole("Developer");
+            ViewBag.Developers = new MultiSelectList(allProjectManagers, "Id", "DisplayName");
+            var allSubmitters = roleHelper.UsersInRole("Submitter");
+            ViewBag.Submitters = new MultiSelectList(allProjectManagers, "Id", "DisplayName");
+
+
             return View(project);
         }
 

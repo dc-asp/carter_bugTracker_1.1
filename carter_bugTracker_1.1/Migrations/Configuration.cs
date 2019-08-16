@@ -24,6 +24,15 @@ namespace carter_bugTracker_1._1.Migrations
 
             //#regionroleManager
 
+            context.TicketPriorities.AddOrUpdate(
+                t => t.Name,
+                new TicketPriority { Name = "Immediate", Description = "Highest priority level requiring immediate action" },
+                new TicketPriority { Name = "High", Description = "High priority level requiring action" },
+                new TicketPriority { Name = "Medium", Description = "priority level requiring action" },
+                new TicketPriority { Name = "Low", Description = "priority level requiring action" },
+                new TicketPriority { Name = "None", Description = "priority level requiring action" }
+                );
+
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
 
             if (!context.Roles.Any(r => r.Name == "Admin"))

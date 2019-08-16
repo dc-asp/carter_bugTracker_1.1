@@ -9,7 +9,7 @@ using carter_bugTracker_1._1.Helpers;
 
 namespace carter_bugTracker_1._1.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
