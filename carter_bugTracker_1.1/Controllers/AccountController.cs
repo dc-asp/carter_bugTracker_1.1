@@ -257,6 +257,20 @@ namespace carter_bugTracker_1._1.Controllers
             return code == null ? View("Error") : View();
         }
 
+        [Authorize]
+        public async Task<ActionResult> CustomPasswordResetAsync()
+        {
+            
+            var userId = User.Identity.GetUserId();
+            var user = UserManager.FindById(userId);
+            var vm = new ResetPasswordViewModel
+            {
+                Code = await UserManager.GeneratePasswordResetTokenAsync(userId)
+                //Email = user.Email
+            };
+            return View("ResetPassword", vm);
+        }
+
         //
         // POST: /Account/ResetPassword
         [HttpPost]

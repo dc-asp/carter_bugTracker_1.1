@@ -9,7 +9,7 @@ using System.Web.Configuration;
 
 namespace carter_bugTracker_1._1.Helpers
 {
-    public class ImageHelpers
+    public static class ImageHelpers
     {
         public static bool IsWebFriendlyImage(HttpPostedFileBase file)
         {
@@ -27,12 +27,12 @@ namespace carter_bugTracker_1._1.Helpers
                         ImageFormat.Png.Equals(img.RawFormat) ||
                         ImageFormat.Icon.Equals(img.RawFormat) ||
                         ImageFormat.Bmp.Equals(img.RawFormat) ||
-                        ImageFormat.Gif.Equals(img.RawFormat) ||
+                        ImageFormat.Gif.Equals(img.RawFormat) ||;
                 }
             }
             catch
             {
-
+                return false;
             }
         }
         public static bool IsValidAttachment(HttpPostedFileBase file)
