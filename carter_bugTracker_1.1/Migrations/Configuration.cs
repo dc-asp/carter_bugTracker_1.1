@@ -7,6 +7,7 @@ namespace carter_bugTracker_1._1.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using carter_bugTracker_1._1.Helpers;
 
     internal sealed class Configuration : DbMigrationsConfiguration<carter_bugTracker_1._1.Models.ApplicationDbContext>
     {
@@ -24,7 +25,10 @@ namespace carter_bugTracker_1._1.Migrations
 
             //#regionroleManager
 
-            context.TicketPriorities.AddOrUpdate(
+            var userId = UserManager.FIndByEmail("dc.carter.dev@gmail.com").Id;
+            userManager.AddToRole(userId, "Admin");
+
+            context.Projects.AddOrUpdate(
                 t => t.Name,
                 new TicketPriority { Name = "Immediate", Description = "Highest priority level requiring immediate action" },
                 new TicketPriority { Name = "High", Description = "High priority level requiring action" },
@@ -32,6 +36,24 @@ namespace carter_bugTracker_1._1.Migrations
                 new TicketPriority { Name = "Low", Description = "priority level requiring action" },
                 new TicketPriority { Name = "None", Description = "priority level requiring action" }
                 );
+
+            context.TicketPriorities.AddOrUpdate(
+               t => t.Name,
+               new TicketPriority { Name = "Immediate", Description = "Highest priority level requiring immediate action" },
+               new TicketPriority { Name = "High", Description = "High priority level requiring action" },
+               new TicketPriority { Name = "Medium", Description = "priority level requiring action" },
+               new TicketPriority { Name = "Low", Description = "priority level requiring action" },
+               new TicketPriority { Name = "None", Description = "priority level requiring action" }
+               );
+
+            context.TicketStatuses.AddOrUpdate(
+               t => t.Name,
+               new TicketPriority { Name = "Immediate", Description = "Highest priority level requiring immediate action" },
+               new TicketPriority { Name = "High", Description = "High priority level requiring action" },
+               new TicketPriority { Name = "Medium", Description = "priority level requiring action" },
+               new TicketPriority { Name = "Low", Description = "priority level requiring action" },
+               new TicketPriority { Name = "None", Description = "priority level requiring action" }
+               );
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
 

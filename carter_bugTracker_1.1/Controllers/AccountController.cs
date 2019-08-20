@@ -164,11 +164,11 @@ namespace carter_bugTracker_1._1.Controllers
                     AvatarUrl = WebConfigurationManager.AppSettings["DefaultAvatar"]
                 };
 
-                if(ImageHelpers.(model.Avatar))
+                if(ImageHelpers.IsWebFriendlyImage(model.AvatarUrl))
                 {
-                    var fileName = Path.GetFileName(model.Avatar.FileName);
-                    model.Avatar.SaveAs(Path.Combine(Server.MapPath("~/Avatars/"), fileName));
-                    user.AvatarURL = "~/Avatars/" + fileName;
+                    var fileName = Path.GetFileName(model.AvatarUrl.FileName);
+                    model.AvatarUrl.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
+                    user.AvatarUrl = "~/Uploads/" + fileName;
                 }
 
                 var result = await UserManager.CreateAsync(user, model.Password);

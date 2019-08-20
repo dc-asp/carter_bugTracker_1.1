@@ -30,7 +30,7 @@ namespace carter_bugTracker_1._1.Helpers
 
             var projects = user.Projects.ToList();
             return (projects);
-        }
+        }       
         public void AddUserToProjects(string userId, int projectId)
         {
             if (!IsUserOnProject(userId, projectId))
