@@ -16,7 +16,7 @@ namespace carter_bugTracker_1._1.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserRolesHelper roleHelper = new UserRolesHelper();
-
+        private UserProjectsHelper = new UserProjectsHelper();
         // GET: Tickets
         public ActionResult Index()
         {

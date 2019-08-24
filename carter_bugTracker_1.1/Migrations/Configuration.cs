@@ -48,11 +48,13 @@ namespace carter_bugTracker_1._1.Migrations
 
             context.TicketStatuses.AddOrUpdate(
                t => t.Name,
-               new TicketPriority { Name = "Immediate", Description = "Highest priority level requiring immediate action" },
-               new TicketPriority { Name = "High", Description = "High priority level requiring action" },
-               new TicketPriority { Name = "Medium", Description = "priority level requiring action" },
-               new TicketPriority { Name = "Low", Description = "priority level requiring action" },
-               new TicketPriority { Name = "None", Description = "priority level requiring action" }
+               new TicketStatus { Name = "New / UnAssigned", Description = "" },
+               new TicketStatus { Name = "UnAssigned", Description = "" },
+               new TicketStatus { Name = "New / UnAssigned", Description = "" },
+               new TicketStatus { Name = "Assigned", Description = "" },
+               new TicketStatus { Name = "In Progress", Description = "" }
+               new TicketStatus { Name = "Completed", Description = "" }
+               new TicketStatus { Name = "Archived", Description = "" }
                );
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
