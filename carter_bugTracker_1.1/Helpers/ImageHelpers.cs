@@ -27,7 +27,7 @@ namespace carter_bugTracker_1._1.Helpers
                         ImageFormat.Png.Equals(img.RawFormat) ||
                         ImageFormat.Icon.Equals(img.RawFormat) ||
                         ImageFormat.Bmp.Equals(img.RawFormat) ||
-                        ImageFormat.Gif.Equals(img.RawFormat) ||;
+                        ImageFormat.Gif.Equals(img.RawFormat);
                 };
             }
             catch
@@ -72,28 +72,28 @@ namespace carter_bugTracker_1._1.Helpers
                 return false;
             }
         }
-        //public string GetIconPath(string filePath)
-        //{
-        //    switch(Path.GetExtension(filePath))
-        //    {
-        //        case ".png":
-        //        case ".bmp":
-        //        case ".tif":
-        //        case ".ico":
-        //        case ".jpg":
-        //        case ".jpeg":
-        //            return filePath;
-        //        case ".pdf":
-        //            return "/Images/pdf.png";
-        //        case ".png":
-        //            return "/Images/doc.png";
-        //        case ".png":
-        //            return "/Images/docx.png";
-        //        case ".png":
-        //            return "/Images/xls.png";
-        //        case ".png":
-        //            return "/Images/xlsx.png";
-        //    }
-        //}
+        public static string GetIconPath(string filePath)
+        {
+            switch (Path.GetExtension(filePath))
+            {
+                case ".png":
+                case ".bmp":
+                case ".tif":
+                case ".ico":
+                case ".jpg":
+                case ".jpeg":
+                    return filePath;
+                case ".pdf":
+                    return "/Images/.pdf";
+                case ".png":
+                    return "/Images/.png";
+                case ".docx":
+                    return "/Images/.docx";
+                case ".xls":
+                    return "/Images/.xls";
+                case ".xlsx":
+                    return "/Images/.xlsx";
+            }
+        }
     }
 }

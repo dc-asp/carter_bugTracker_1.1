@@ -16,7 +16,7 @@ namespace carter_bugTracker_1._1.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserRolesHelper roleHelper = new UserRolesHelper();
-        private UserProjectsHelper = new UserProjectsHelper();
+        private UserProjectsHelper projecthelper = new UserProjectsHelper();
         // GET: Tickets
         public ActionResult Index()
         {
@@ -99,9 +99,10 @@ namespace carter_bugTracker_1._1.Controllers
         {
             if (ModelState.IsValid)
             {
-                //ticket.Created = DateTimeOffset.Now;
-                ticket.OwnerUserId = User.Identity.GetUserId();
+                ticket.TicketPriorityId = db.TicketPriorities.FirstOrDefault(t => t.Priority == "New / Unassigned").Id;
                 ticket.TicketStatusId = db.TicketStatuses.FirstOrDefault(t => t.Name == "New/Unassigned").Id;
+                ticket.OwnerUserId = User.Identity.GetUserId();
+                ticket.Created = DateTime.Now;
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
                 return RedirectToAction("Index");
