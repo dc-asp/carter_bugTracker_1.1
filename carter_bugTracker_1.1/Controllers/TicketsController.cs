@@ -70,6 +70,13 @@ namespace carter_bugTracker_1._1.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Ticket ticket = db.Tickets.Find(id);
+
+            if(ticket.AssignedToUserId != User.Identity.GetUserId())
+            {
+                TempData["ErrorMsg"] = "You are tring to edit a Ticket that you are not assigned to!";
+                return RedirectToAction("TicketError", "Admin");
+            }
+
             if (ticket == null)
             {
                 return HttpNotFound();
@@ -118,23 +125,39 @@ namespace carter_bugTracker_1._1.Controllers
         }
 
         // GET: Tickets/Edit/5
+        [Authorize(Roles = "Developer, ProjectManager, Submitter, Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            
+
             Ticket ticket = db.Tickets.Find(id);
+
+            
+
             if (ticket == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
-            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
+            var allowed = false;
+            var userId = User.Identity.GetUserId();
+
+            if (User.IsInRole("Developer") && ticket.AssignedToUserId == userId)
+                allowed = true;
+            else if (User.IsInRole("Submitter") && ticket.OwnerUserId == userId)
+                allowed = true;
+            else if(User.IsInRole("ProjectManager"))
+
+            //ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
+            //ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
+            //ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
+            //ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
+            //ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
+            //ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
             return View(ticket);
         }
 
